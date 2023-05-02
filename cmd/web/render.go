@@ -72,7 +72,8 @@ func (app *application) renderTemplate(
 
 func (app *application) parseTemplate(
 	partials []string,
-	page, templateToRender string,
+	page,
+	templateToRender string,
 ) (*template.Template, error) {
 	var t *template.Template
 	var err error
@@ -83,9 +84,9 @@ func (app *application) parseTemplate(
 			partials[i] = fmt.Sprintf("templates/%s.partials.tmpl", x)
 		}
 
-		t, err = template.New(templateToRender).Funcs(functions).ParseFS(templateFS, "templates/base.layout.tmpl", strings.Join(partials, ","), templateToRender)
+		t, err = template.New(fmt.Sprintf("%s.page.tmpl", page)).Funcs(functions).ParseFS(templateFS, "templates/base.layout.tmpl", strings.Join(partials, ","), templateToRender)
 	} else {
-		t, err = template.New(templateToRender).Funcs(functions).ParseFS(templateFS, "templates/base.layout.tmpl", templateToRender)
+		t, err = template.New(fmt.Sprintf("%s.page.tmpl", page)).Funcs(functions).ParseFS(templateFS, "templates/base.layout.tmpl", templateToRender)
 	}
 	if err != nil {
 		app.errorLog.Println(err)
