@@ -4,10 +4,15 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"myapp/initializers"
 	"net/http"
 	"os"
 	"time"
 )
+
+func init() {
+	initializers.LoadEnvVariables()
+}
 
 const version = "1.0.0"
 

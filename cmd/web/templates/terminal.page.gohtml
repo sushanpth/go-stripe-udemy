@@ -60,7 +60,7 @@
     const payButton = document.getElementById("pay-button");
     const processing = document.getElementById("processing-payment")
 
-    let stripe = Stripe('pk_test_51N39MjL9dgm7U7aMOuPvJxGrgCSwvswBiOMe2ugxrtYQ6qRENv0t1YZELLxqisEl5clJfvbwSBEu2AtFxlXebolh00BAS4JhP1');
+    let stripe = Stripe({{index .StringMap "publishable_key" }});
 
     function hidePayButton(){
       payButton.classList.add("d-none")
@@ -100,7 +100,7 @@
       let amountToCharge = String(parseFloat(document.getElementById("amount").value * 100))
       let payload = {
         amount: amountToCharge,
-        currency: 'cad'
+        currency: 'usd'
       }
       const requestOptions = {
         method: 'post',
@@ -111,7 +111,7 @@
         body: JSON.stringify(payload)
       }
 
-      fetch("http://localhost:4001/api/payment-intent", requestOptions)
+      fetch("{{index .API }}/api/payment-intent", requestOptions)
         .then(response => response.text())
         .then(response => {
           let data;

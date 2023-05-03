@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"myapp/initializers"
 	"net/http"
 	"os"
 	"time"
 )
+
+func init() {
+	initializers.LoadEnvVariables()
+}
 
 const version = "1.0.0"
 const cssVersion = "1"
