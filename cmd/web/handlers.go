@@ -1,8 +1,10 @@
 package main
 
 import (
-	"myapp/internal/models"
 	"net/http"
+	"strconv"
+
+	"github.com/go-chi/chi/v5"
 )
 
 func (app *application) VirtualTerminal(w http.ResponseWriter, r *http.Request) {
@@ -47,13 +49,16 @@ func (app *application) PaymentSucceeded(w http.ResponseWriter, r *http.Request)
 
 // ChargeOnce displays the page to buy one widget
 func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
-	widget := models.Widget{
-		ID:             1,
-		Name:           "Custom Widget",
-		Description:    "A very nice widget",
-		InventoryLevel: 10,
-		Price:          1000, // $10 in cents
+	id := chi.URLParam(r, "id")
+	widgetID, _ := strconv.Atoi(id)
+
+	widget, err := app.DB.GetWidget(widgetID)
+
+	if err != nil {
+		app.errorLog.Println(err)
+		return
 	}
+
 	data := make(map[string]interface{})
 	data["widget"] = widget
 
