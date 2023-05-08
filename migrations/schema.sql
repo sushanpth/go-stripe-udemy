@@ -16,6 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `customers`
+--
+
+DROP TABLE IF EXISTS `customers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `customers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT (curdate()),
+  `updated_at` datetime NOT NULL DEFAULT (curdate()),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `orders`
 --
 
@@ -31,10 +49,13 @@ CREATE TABLE `orders` (
   `amount` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (curdate()),
   `updated_at` datetime NOT NULL DEFAULT (curdate()),
+  `customer_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `orders_widgets_id_fk` (`widget_id`),
   KEY `orders_transactions_id_fk` (`transaction_id`),
   KEY `orders_statuses_id_fk` (`status_id`),
+  KEY `orders_customers_id_fk` (`customer_id`),
+  CONSTRAINT `orders_customers_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `orders_statuses_id_fk` FOREIGN KEY (`status_id`) REFERENCES `statuses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `orders_transactions_id_fk` FOREIGN KEY (`transaction_id`) REFERENCES `transactions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `orders_widgets_id_fk` FOREIGN KEY (`widget_id`) REFERENCES `widgets` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -103,6 +124,8 @@ CREATE TABLE `transactions` (
   `transaction_status_id` int NOT NULL,
   `created_at` datetime NOT NULL DEFAULT (curdate()),
   `updated_at` datetime NOT NULL DEFAULT (curdate()),
+  `expiry_month` int NOT NULL DEFAULT '0',
+  `expiry_year` int NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `transactions_transaction_statuses_id_fk` (`transaction_status_id`),
   CONSTRAINT `transactions_transaction_statuses_id_fk` FOREIGN KEY (`transaction_status_id`) REFERENCES `transaction_statuses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -157,4 +180,4 @@ CREATE TABLE `widgets` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-04 13:25:15
+-- Dump completed on 2023-05-08 10:00:13
