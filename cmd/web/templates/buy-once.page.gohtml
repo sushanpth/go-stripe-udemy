@@ -26,16 +26,29 @@
     <p>{{$widget.Description}}</p>
 
     <div class="mb-3 form-group">
-      <label for="cardholder-name" class="form-label">Cardholder Name</label>
+      <label for="first-name" class="form-label">First Name</label>
+      <input type="text" name="first_name" id="first-name" class="form-control"
+      required="" autocomplete="first-name-new">
+    </div>
+
+    <div class="mb-3 form-group">
+      <label for="last-name" class="form-label">Last Name</label>
+      <input type="text" name="last_name" id="last-name" class="form-control"
+      required="" autocomplete="last-name-new">
+    </div>
+
+    <div class="mb-3 form-group">
+      <label for="email" class="form-label">Email</label>
+      <input type="email" name="email" id="email" class="form-control"
+      required="" autocomplete="email-new">
+    </div>
+
+    <div class="mb-3 form-group">
+      <label for="cardholder-name" class="form-label">Name On Card</label>
       <input type="text" name="cardholder_name" id="cardholder-name" class="form-control"
       required="" autocomplete="cardholder-name-new">
     </div>
 
-    <div class="mb-3 form-group">
-      <label for="cardholder-email" class="form-label">Cardholder Email</label>
-      <input type="email" name="cardholder_email" id="cardholder-email" class="form-control"
-      required="" autocomplete="cardholder-email-new">
-    </div>
 
     <div class="mb-3 form-group">
       <label for="card-element" class="form-label">Credit Card</label>
