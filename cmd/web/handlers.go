@@ -293,6 +293,7 @@ func (app *application) BronzePlan(w http.ResponseWriter, r *http.Request) {
 	widget, err := app.DB.GetWidget(2)
 	if err != nil {
 		app.errorLog.Println(err)
+		return
 	}
 
 	data := make(map[string]interface{})

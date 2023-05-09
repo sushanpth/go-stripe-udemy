@@ -136,9 +136,9 @@
         // create customer and subscribe to plan
         let payload = {
           plan: '{{$widget.PlanID}}',
-          paymentMethod: result.paymentMethod.id,
+          payment_method: result.paymentMethod.id,
           email: document.getElementById("email").value,
-          last_four: result.payment_method.card.last4,
+          last_four: result.paymentMethod.card.last4,
         }
 
         const requestOptions = {
