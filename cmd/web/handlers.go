@@ -306,9 +306,18 @@ func (app *application) BronzePlan(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// BronzePlanReceipt displays the payment receipt page for bronze plan
 func (app *application) BronzePlanReceipt(w http.ResponseWriter, r *http.Request) {
 
 	if err := app.renderTemplate(w, r, "receipt-plan", &templateData{}); err != nil {
+		app.errorLog.Println(err)
+	}
+}
+
+// LoginPage displays the login page
+func (app *application) LoginPage(w http.ResponseWriter, r *http.Request) {
+
+	if err := app.renderTemplate(w, r, "login", &templateData{}); err != nil {
 		app.errorLog.Println(err)
 	}
 }
