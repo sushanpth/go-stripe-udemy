@@ -261,7 +261,25 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 		app.badRequest(w, r, err)
 		return
 	}
-	// validate user input
+
+	// get the user from the database by email
+	user, err := app.DB.GetUserByEmail(userInput.Email)
+	if err != nil {
+		app.invalidCredentials(w)
+		return
+	}
+	// validate password
+	validPassword, err := app.passwordMatches(user.Password, userInput.Password)
+
+	if !validPassword {
+		app.invalidCredentials(w)
+		return
+	}
+
+	// generate the token
+
+	// send response
+
 	var payload struct {
 		Error   bool   `json:"error"`
 		Message string `json:"message"`
