@@ -288,3 +288,19 @@ func (app *application) ChargeOnce(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
+
+func (app *application) BronzePlan(w http.ResponseWriter, r *http.Request) {
+	widget, err := app.DB.GetWidget(2)
+	if err != nil {
+		app.errorLog.Println(err)
+	}
+
+	data := make(map[string]interface{})
+	data["widget"] = widget
+
+	if err := app.renderTemplate(w, r, "bronze-plan", &templateData{
+		Data: data,
+	}); err != nil {
+		app.errorLog.Println(err)
+	}
+}
