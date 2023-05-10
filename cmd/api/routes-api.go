@@ -25,5 +25,13 @@ func (app *application) routes() http.Handler {
 	mux.Post("/api/authenticate", app.CreateAuthToken)
 	mux.Post("/api/is-authenticated", app.CheckAuthentication)
 
+	mux.Route("/api/admin", func(mux chi.Router) {
+		mux.Use(app.Auth)
+
+		mux.Get("/text", func(w http.ResponseWriter, r *http.Request) {
+			w.Write([]byte("got in"))
+		})
+	})
+
 	return mux
 }
