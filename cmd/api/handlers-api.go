@@ -2,11 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"myapp/internal/cards"
 	"myapp/internal/models"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-chi/chi/v5"
@@ -302,4 +304,47 @@ func (app *application) CreateAuthToken(w http.ResponseWriter, r *http.Request) 
 	payload.Message = fmt.Sprintf("Authentication successful for user %s", user.Email)
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
+}
+
+func (app *application) authenticateToken(r *http.Request) (*models.User, error) {
+
+	authorizationHeader := r.Header.Get("Authorization")
+	if authorizationHeader == "" {
+		return nil, errors.New("no authorization header found")
+	}
+
+	headerParts := strings.Split(authorizationHeader, " ")
+	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
+		return nil, errors.New("no authorization header found")
+	}
+
+	token := headerParts[1]
+	if len(token) != 26 {
+		return nil, errors.New("no authorization header found")
+	}
+
+	// get the user from the token table
+	user, err := app.DB.GetUserForToken(token)
+	if err != nil {
+		return nil, errors.New("no matching user found")
+	}
+
+	return user, nil
+}
+
+func (app *application) CheckAuthentication(w http.ResponseWriter, r *http.Request) {
+	// validate the token, and get associated user
+	user, err := app.authenticateToken(r)
+	if err != nil {
+		app.invalidCredentials(w)
+		return
+	}
+	// valid user
+	var payload struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+	}
+	payload.Error = false
+	payload.Message = fmt.Sprintf("Authenticated user %s", user.Email)
+	app.writeJSON(w, http.StatusOK, payload)
 }
