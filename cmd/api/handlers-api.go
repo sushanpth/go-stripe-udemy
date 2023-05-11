@@ -349,7 +349,7 @@ func (app *application) CheckAuthentication(w http.ResponseWriter, r *http.Reque
 	app.writeJSON(w, http.StatusOK, payload)
 }
 
-func (app *application) VirtualTerminalPaymentSuccedded(w http.ResponseWriter, r *http.Request) {
+func (app *application) VirtualTerminalPaymentSucceded(w http.ResponseWriter, r *http.Request) {
 	var txnData struct {
 		PaymentAmount   int    `json:"payment_amount"`
 		PaymentCurrency string `json:"payment_currency"`
@@ -364,7 +364,7 @@ func (app *application) VirtualTerminalPaymentSuccedded(w http.ResponseWriter, r
 		LastFour        string `json:"last_four"`
 	}
 
-	err := app.readJSON(w, r, txnData)
+	err := app.readJSON(w, r, &txnData)
 
 	if err != nil {
 		app.badRequest(w, r, err)
@@ -409,5 +409,5 @@ func (app *application) VirtualTerminalPaymentSuccedded(w http.ResponseWriter, r
 		return
 	}
 
-	app.writeJSON(w, http.StatusOK, txnData)
+	app.writeJSON(w, http.StatusOK, txn)
 }

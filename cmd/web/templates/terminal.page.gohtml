@@ -61,7 +61,7 @@
         <span id="bank-return-code"></span>
       </p>
       <p>
-        <a href="/virtual-terminal" class="btn btn-primary">
+        <a href="/admin/virtual-terminal" class="btn btn-primary">
           Charge another card
         </a>
       </p>
@@ -182,7 +182,7 @@
 
     function saveTransaction(result){
       let payload = {
-        amount: parseInt(document.getElementById("amount").value, 10)
+        amount: parseInt(document.getElementById("amount").value, 10),
         currency: result.paymentIntent.currency,
         first_name: "",
         last_name: "",

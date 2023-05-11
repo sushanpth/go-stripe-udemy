@@ -32,7 +32,7 @@ func (app *application) routes() http.Handler {
 			w.Write([]byte("got in"))
 		})
 
-		mux.Post("/virtual-terminal-succedded", app.VirtualTerminalPaymentSuccedded)
+		mux.Post("/virtual-terminal-succedded", app.VirtualTerminalPaymentSucceded)
 	})
 
 	return mux
