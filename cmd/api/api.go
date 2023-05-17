@@ -9,6 +9,7 @@ import (
 	"myapp/internal/models"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -27,6 +28,12 @@ type config struct {
 	stripe struct {
 		secret string
 		key    string
+	}
+	smtp struct {
+		host     string
+		port     int
+		username string
+		password string
 	}
 }
 
@@ -62,6 +69,10 @@ func main() {
 	cfg.stripe.key = os.Getenv("STRIPE_KEY")
 	cfg.stripe.secret = os.Getenv("STRIPE_SECRET")
 	cfg.db.dsn = os.Getenv("MYSQL_DSN")
+	cfg.smtp.host = os.Getenv("SMTP_HOST")
+	cfg.smtp.port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
+	cfg.smtp.username = os.Getenv("SMTP_USERNAME")
+	cfg.smtp.password = os.Getenv("SMTP_PASSWORD")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
