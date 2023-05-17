@@ -35,6 +35,8 @@ type config struct {
 		username string
 		password string
 	}
+	secretkey string
+	frontend  string
 }
 
 type application struct {
@@ -73,6 +75,8 @@ func main() {
 	cfg.smtp.port, _ = strconv.Atoi(os.Getenv("SMTP_PORT"))
 	cfg.smtp.username = os.Getenv("SMTP_USERNAME")
 	cfg.smtp.password = os.Getenv("SMTP_PASSWORD")
+	cfg.secretkey = os.Getenv("SECRET_KEY")
+	cfg.frontend = os.Getenv("FRONTEND_URL")
 
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
 	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
