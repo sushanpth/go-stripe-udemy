@@ -353,3 +353,9 @@ func (app *application) Logout(w http.ResponseWriter, r *http.Request) {
 	app.Session.RenewToken(r.Context()) // good security practice
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
+
+func (app *application) ForgotPassword(w http.ResponseWriter, r *http.Request) {
+	if err := app.renderTemplate(w, r, "forgot-password", nil); err != nil {
+		app.errorLog.Println(err)
+	}
+}
